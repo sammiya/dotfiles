@@ -7,5 +7,5 @@ $env:PATH = $newPath + ';' + $env:PATH
 
 # "PS " のプレフィックスを消す
 function prompt {
-  $(get-location) + "> "
+  $(get-location).toString() + "> "
 }
