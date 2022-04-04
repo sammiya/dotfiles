@@ -16,3 +16,5 @@ winget install Discord.Discord
 winget install Google.Chrome
 
 cat extensions.txt | % { code --install-extension $_ }
+
+wsl --install
