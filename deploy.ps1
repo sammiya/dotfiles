@@ -4,6 +4,8 @@
 mkdir -f $env:USERPROFILE\Documents\WindowsPowerShell
 New-Item -Force -ItemType SymbolicLink -Value $PSScriptRoot\profile.ps1 -Path $env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1
 New-Item -Force -ItemType SymbolicLink -Value $PSScriptRoot\settings.json -Path $env:APPDATA\Code\User\settings.json
+New-Item -Force -ItemType SymbolicLink -Value $PSScriptRoot\.gitconfig -Path $env:USERPROFILE\.gitconfig
+New-Item -Force -ItemType SymbolicLink -Value $PSScriptRoot\.gitignore_global -Path $env:USERPROFILE\.gitignore_global
 
 # winget export で出力されるファイルを利用することも考えたが、
 # VSCode が出力されなかったりよくわからない挙動があるのでふつうにコマンドを列挙
