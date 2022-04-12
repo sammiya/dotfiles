@@ -7,4 +7,4 @@ sudo apt autoremove -y
 # SCRIPT_DIR=$(cd $(dirname $0); pwd)
 
 ln -s ~/dotfiles/.gitconfig ~/.gitconfig
-ln -s ~/dotfiles/.gitignrore_global ~/.gitignore_global
+ln -s ~/dotfiles/.gitignore_global ~/.gitignore_global
