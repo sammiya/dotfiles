@@ -17,3 +17,5 @@
 	ui = true
 [include]
 	path = ~/.gitconfig.local
+[ghq]
+    user = sammiya
