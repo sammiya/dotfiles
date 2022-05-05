@@ -43,3 +43,14 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 # fzf
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
+
+function ghq-fzf() {
+  local src=$(ghq list | fzf)
+  if [ -n "$src" ]; then
+    BUFFER="cd $(ghq root)/$src"
+    zle accept-line
+  fi
+  zle redisplay # refresh
+}
+zle -N ghq-fzf
+bindkey '^]' ghq-fzf
