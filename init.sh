@@ -18,6 +18,8 @@ sudo unzip ~/ghq_linux_amd64.zip -d /usr/local
 sudo ln -s /usr/local/ghq_linux_amd64/ghq /usr/local/bin/ghq
 rm -f ~/ghq_linux_amd64.zip
 
+sudo apt install fzf -y
+
 # ln -s ~/dotfiles/.zshrc_Darwin ~/.zshrc_Darwin
 
 # mkdir -p ~/Library/Application\ Support/Code/User

@@ -39,3 +39,7 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # https://qiita.com/catatsuy/items/00ebf78f56960b6d43c2
 [ -f ~/.zshrc_`uname` ] && . ~/.zshrc_`uname`
+
+# fzf
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
