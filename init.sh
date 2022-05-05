@@ -12,9 +12,15 @@ chsh -s /bin/zsh
 ln -s ~/dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/dotfiles/.gitignore_global ~/.gitignore_global
 ln -s ~/dotfiles/.zshrc ~/.zshrc
-ln -s ~/dotfiles/.zshrc_Darwin ~/.zshrc_Darwin
 
-mkdir -p ~/Library/Application\ Support/Code/User
-ln -s ~/dotfiles/settings.json ~/Library/Application\ Support/Code/User/settings.json
+curl -OL -o ~ https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_amd64.zip
+sudo unzip ~/ghq_linux_amd64.zip -d /usr/local
+sudo ln -s /usr/local/ghq_linux_amd64/ghq /usr/local/bin/ghq
+rm -f ~/ghq_linux_amd64.zip
 
-cat extensions.txt | xargs -L 1 code --install-extension
+# ln -s ~/dotfiles/.zshrc_Darwin ~/.zshrc_Darwin
+
+# mkdir -p ~/Library/Application\ Support/Code/User
+# ln -s ~/dotfiles/settings.json ~/Library/Application\ Support/Code/User/settings.json
+
+# cat extensions.txt | xargs -L 1 code --install-extension
