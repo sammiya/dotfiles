@@ -16,6 +16,7 @@ winget install git.git
 winget install Microsoft.VisualStudioCode
 winget install Discord.Discord
 winget install Google.Chrome
+winget install Docker.DockerDesktop
 
 cat extensions.txt | % { code --install-extension $_ }
 
