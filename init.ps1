@@ -21,3 +21,5 @@ winget install Docker.DockerDesktop
 cat extensions.txt | % { code --install-extension $_ }
 
 wsl --install
+
+pip install pyenv-win --no-user --target $env:USERPROFILE\.pyenv
