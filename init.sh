@@ -20,7 +20,14 @@ rm -f ~/ghq_linux_amd64.zip
 
 sudo apt install fzf -y
 
+ln -s ~/dotfiles/.zshrc_Linux ~/.zshrc_Linux
+
+# 以下は Mac 用。あとで分離
+
 # ln -s ~/dotfiles/.zshrc_Darwin ~/.zshrc_Darwin
+
+# brew install fzf
+# brew install ghq
 
 # mkdir -p ~/Library/Application\ Support/Code/User
 # ln -s ~/dotfiles/settings.json ~/Library/Application\ Support/Code/User/settings.json

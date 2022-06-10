@@ -37,12 +37,6 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-# https://qiita.com/catatsuy/items/00ebf78f56960b6d43c2
-[ -f ~/.zshrc_`uname` ] && . ~/.zshrc_`uname`
-
-# fzf
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
 
 function ghq-fzf() {
   local src=$(ghq list | fzf)
@@ -54,3 +48,16 @@ function ghq-fzf() {
 }
 zle -N ghq-fzf
 bindkey '^]' ghq-fzf
+
+fbr() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# https://qiita.com/catatsuy/items/00ebf78f56960b6d43c2
+[ -f ~/.zshrc_`uname` ] && . ~/.zshrc_`uname`
+
+[ -f ~/.zshrc_local ] && . ~/.zshrc_local

@@ -6,3 +6,8 @@ else
   export LSCOLORS=gxfxcxdxbxegedabagacad
   alias ls='ls -G'
 fi
+
+# fzf
+FZF_SHELL_PATH=$(cd $(brew --prefix fzf)/../$(readlink $(brew --prefix fzf))/shell/ && pwd)
+source $FZF_SHELL_PATH/key-bindings.zsh
+source $FZF_SHELL_PATH/completion.zsh
