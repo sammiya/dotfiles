@@ -18,4 +18,4 @@
 [include]
 	path = ~/.gitconfig.local
 [ghq]
-    user = sammiya
+	user = sammiya
