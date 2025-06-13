@@ -37,7 +37,7 @@ echo "Installing tools..."
 
 if [[ "$OS" == "macos" ]]; then
     # Use Homebrew
-    # /opt/homebrew/bin/brew install gh ghq fzf ripgrep starship mise
+    /opt/homebrew/bin/brew install gh ghq fzf ripgrep starship mise
 elif [[ "$OS" == "linux" ]]; then
     # Install via apt and other methods
     sudo apt-get update
