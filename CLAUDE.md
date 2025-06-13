@@ -30,3 +30,7 @@
 2. Homebrew のインストール（macOS のみ）
 3. 適切なパッケージマネージャーを使用した git のインストール
 4. 標準化された場所へのリポジトリのクローン
+
+## メモリ
+
+- README.mdのbootstrap.shとinstall.shの関係: bootstrap.shは高レベルのインストールスクリプトで、install.shを呼び出すラッパースクリプトとして機能する。bootstrap.shは環境のセットアップや前提条件の確認を行い、実際のインストール処理はinstall.shに委譲する。

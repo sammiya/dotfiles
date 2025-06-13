@@ -1,0 +1,23 @@
+[core]
+	excludesfile = ~/.gitignore_global
+	ignorecase = false
+	autocrlf = false
+	editor = vim
+	quotepath = false
+[user]
+	email = 338@tutanota.de
+	name = sammiya
+[pull]
+	rebase = true
+[push]
+	default = current
+[init]
+	defaultBranch = main
+[color]
+	ui = true
+[include]
+	path = ~/.gitconfig.local
+[ghq]
+	user = sammiya
+[url "git@github.com:"]
+	insteadOf = https://github.com/
