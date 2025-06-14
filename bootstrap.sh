@@ -33,7 +33,7 @@ elif command -v git &>/dev/null; then
 fi
 
 # Clone dotfiles
-DOTFILES_DIR="$HOME/ghq/sammiya/dotfiles"
+DOTFILES_DIR="$HOME/ghq/github.com/sammiya/dotfiles"
 if [[ -d "$DOTFILES_DIR" ]]; then
     echo "Directory $DOTFILES_DIR already exists. Skipping clone."
 else
