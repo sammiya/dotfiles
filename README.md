@@ -12,6 +12,7 @@ macOSとUbuntu Linux用の個人設定ファイル集です。
 以下のコマンドを実行するだけで完了します：
 
 ```bash
+sudo -v
 curl -fsSL https://raw.githubusercontent.com/sammiya/dotfiles/20250614/bootstrap.sh | bash
 ```
 
