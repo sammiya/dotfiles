@@ -23,16 +23,13 @@ if [[ "$OS" == "macos" ]] && [[ ! -f "/opt/homebrew/bin/brew" ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-# Install git
-if ! command -v git &> /dev/null; then
-    echo "Installing git..."
-    
-    if [[ "$OS" == "macos" ]]; then
-        /opt/homebrew/bin/brew install git
-    elif [[ "$OS" == "linux" ]]; then
-        sudo apt-get update
-        sudo apt-get install -y git
-    fi
+if [[ "$OS" == "macos" ]] && ! brew list git &>/dev/null; then
+    echo "Installing git via Homebrew..."
+    /opt/homebrew/bin/brew install git
+elif command -v git &>/dev/null; then
+    echo "Installing git via apt-get..."
+    sudo apt-get update
+    sudo apt-get install -y git
 fi
 
 # Clone dotfiles

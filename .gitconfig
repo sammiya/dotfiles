@@ -1,23 +1,38 @@
 [core]
-	excludesfile = ~/.gitignore_global
-	ignorecase = false
-	autocrlf = false
-	editor = vim
-	quotepath = false
+    excludesfile = ~/.gitignore_global
+    quotepath = false
 [user]
-	email = 338@tutanota.de
-	name = sammiya
-[pull]
-	rebase = true
-[push]
-	default = current
+    email = 338@tutanota.de
+    name = sammiya
+[column]
+    ui = auto
+[branch]
+    sort = -committerdate
+[tag]
+    sort = version:refname
 [init]
-	defaultBranch = main
-[color]
-	ui = true
-[include]
-	path = ~/.gitconfig.local
-[ghq]
-	user = sammiya
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+    defaultBranch = main
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+[push]
+    default = simple
+	autoSetupRemote = true
+	followTags = true
+[pull]
+    rebase = true
+	ff = only
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[help]
+    autocorrect = prompt
+[commit]
+    verbose = true
+[rebase]
+    autosquash = true
+	autostash = true
+	updateRefs = true
