@@ -1,3 +1,6 @@
+autoload -U compinit
+compinit -i
+
 # ===========================
 # Tool Initialization
 # ===========================
