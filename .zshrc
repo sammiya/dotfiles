@@ -16,8 +16,8 @@ if command -v starship &> /dev/null; then
 fi
 
 # mise
-if command -v mise &> /dev/null; then
-    eval "$(mise activate zsh)"
+if [ -x "$HOME/.local/bin/mise" ]; then
+    eval "$("$HOME/.local/bin/mise" activate zsh)"
 fi
 
 # GitHub CLI completion
