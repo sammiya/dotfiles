@@ -44,13 +44,7 @@ fi
 echo "Done! Dotfiles repository cloned to: $DOTFILES_DIR"
 echo
 echo "Next, you can install dotfiles configuration and tools."
-read -p "Do you want to run install.sh now? (y/N): " -n 1 -r
+echo "Run the following command to install:"
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Running install.sh..."
-    cd "$DOTFILES_DIR"
-    ./install.sh
-else
-    echo "Skipped install.sh. You can run it later with:"
-    echo "  cd $DOTFILES_DIR && ./install.sh"
-fi
+echo "cd $DOTFILES_DIR && ./install.sh"
+

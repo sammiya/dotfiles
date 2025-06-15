@@ -19,11 +19,8 @@ curl -fsSL https://raw.githubusercontent.com/sammiya/dotfiles/20250614/bootstrap
 このスクリプトは以下を実行します：
 1. Homebrewのインストール（macOSのみ）
 2. gitがない場合はインストール
-3. このリポジトリを `$HOME/ghq/sammiya/dotfiles` にクローン
-4. dotfilesのインストール確認（y/N）
-   - yを選択した場合、自動的に `install.sh` を実行
-   - 設定ファイルのシンボリックリンク作成（.gitconfig, .zshrc等）
-   - 開発ツールのインストール（gh, ghq, fzf, ripgrep, starship, mise）
+3. このリポジトリを `$HOME/github.com/ghq/sammiya/dotfiles` にクローン
+
 
 ## 手動インストール
 
@@ -31,8 +28,8 @@ curl -fsSL https://raw.githubusercontent.com/sammiya/dotfiles/20250614/bootstrap
 
 ```bash
 # リポジトリをクローン
-git clone -b 20250614 https://github.com/sammiya/dotfiles.git ~/ghq/sammiya/dotfiles
-cd ~/ghq/sammiya/dotfiles
+git clone -b 20250614 https://github.com/sammiya/dotfiles.git ~/github.com/ghq/sammiya/dotfiles
+cd ~/github.com/ghq/sammiya/dotfiles
 ./install.sh
 ```
 
