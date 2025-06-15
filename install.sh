@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
 # Detect OS
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -28,6 +28,7 @@ ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 ln -sf "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 
 mkdir -p "$HOME/.config"
+mkdir -p "$HOME/.claude"
 mkdir -p "$HOME/.config/mise"
 
 ln -sf "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
@@ -45,21 +46,15 @@ elif [[ "$OS" == "linux" ]]; then
     ln -sf "$DOTFILES_DIR/.zprofile_Linux" "$HOME/.zprofile_Linux"
 fi
 
-# Install tools
-echo "Installing tools..."
-
-if [[ "$OS" == "macos" ]]; then
-    # Use Homebrew
-    /opt/homebrew/bin/brew install git gh ghq fzf ripgrep
-
-    # starship
+# Function to install starship
+install_starship() {
     if ! command -v starship &> /dev/null; then
         echo "starship is not installed. Installing..."
-        curl -sS https://starship.rs/install.sh | sh
-    else
+        curl -fsSL https://starship.rs/install.sh | sh -s -- -y
+    else     
         CURRENT_STARSHIP_VERSION=$(starship --version | head -1 | awk '{print $2}')
         
-        LATEST_STARSHIP_VERSION=$(curl -s https://api.github.com/repos/starship/starship/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
+        LATEST_STARSHIP_VERSION=$(curl -fsSL https://api.github.com/repos/starship/starship/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
         
         if [ -z "$LATEST_STARSHIP_VERSION" ]; then
             echo "Failed to fetch latest version info for starship"
@@ -68,36 +63,119 @@ if [[ "$OS" == "macos" ]]; then
 
         if [ "$CURRENT_STARSHIP_VERSION" != "$LATEST_STARSHIP_VERSION" ]; then
             echo "Updating starship from $CURRENT_STARSHIP_VERSION to $LATEST_STARSHIP_VERSION"
-            curl -sS https://starship.rs/install.sh | sh
+            curl -fsSL https://starship.rs/install.sh | sh -s -- -y
         else
             echo "starship is already up to date ($CURRENT_STARSHIP_VERSION)"
         fi
     fi
+}
 
-    # mise
-    
+# Function to install mise
+install_mise() {
     mise_install_path="$HOME/.local/bin/mise"
 
     if [[ ! -x "$mise_install_path" ]]; then
-        curl https://mise.run | sh
+        curl -fsSL https://mise.run | sh
     else
-       $mise_install_path self-update
+       "$mise_install_path" self-update
     fi
     
     # Run mise install to install tools defined in config
     if [[ -x "$HOME/.local/bin/mise" ]]; then
         "$HOME/.local/bin/mise" install
     fi
+}
+
+# Function to install ghq on Linux
+install_ghq_linux() {
+    local temp_dir
+    temp_dir=$(mktemp -d)
+    trap 'rm -rf "$temp_dir"' EXIT
+
+    local arch
+    arch=$(uname -m)
+    case "$arch" in
+        x86_64) arch=amd64 ;;
+        aarch64|arm64) arch=arm64 ;;
+        *) echo "Unsupported arch: $arch"; return 1 ;;
+    esac
+
+    if ! command -v ghq &> /dev/null; then
+        echo "ghq is not installed. Installing..."
+        curl -fsSL https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_"$arch".zip -o "$temp_dir/ghq_linux_$arch.zip"
+        unzip -q "$temp_dir/ghq_linux_$arch.zip" -d "$temp_dir"
+        sudo install -m 755 "$temp_dir/ghq_linux_$arch/ghq" /usr/local/bin/
+    else
+        CURRENT_GHQ_VERSION=$(ghq --version | head -1 | awk '{print $3}')
+
+        LATEST_GHQ_VERSION=$(curl -fsSL https://api.github.com/repos/x-motemen/ghq/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
+        if [ -z "$LATEST_GHQ_VERSION" ]; then
+            echo "Failed to fetch latest version info for ghq"
+            return 1
+        fi
+
+        if [ "$CURRENT_GHQ_VERSION" != "$LATEST_GHQ_VERSION" ]; then
+            echo "Updating ghq from $CURRENT_GHQ_VERSION to $LATEST_GHQ_VERSION"
+            curl -fsSL https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_"$arch".zip -o "$temp_dir/ghq_linux_$arch.zip"
+            unzip -q "$temp_dir/ghq_linux_$arch.zip" -d "$temp_dir"
+            sudo install -m 755 "$temp_dir/ghq_linux_$arch/ghq" /usr/local/bin/
+        else
+            echo "ghq is already up to date ($CURRENT_GHQ_VERSION)"
+        fi
+    fi
+}
+
+# Function to setup GitHub CLI apt repository
+setup_github_cli_apt_repo() {
+    # https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
+    (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+        && sudo mkdir -p -m 755 /etc/apt/keyrings \
+            && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+            && cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+        && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+        && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+}
+
+# Install tools
+echo "Installing tools..."
+
+if [[ "$OS" == "macos" ]]; then
+    # Use Homebrew
+    /opt/homebrew/bin/brew update
+
+    /opt/homebrew/bin/brew install git gh ghq fzf ripgrep
+
+    # Install starship
+    install_starship
+
+    # Install mise
+    install_mise
 
 elif [[ "$OS" == "linux" ]]; then
-    # Install via apt and other methods
+    # Setup GitHub CLI repository
+    setup_github_cli_apt_repo
+
+    # Install via apt
     sudo apt-get update
+    
+    # Install git, gh, fzf, ripgrep, zsh, unzip (for ghq)
+    sudo apt-get install -y git gh fzf ripgrep zsh unzip
 
-    # Install zsh first
-    sudo apt-get install -y zsh
+    # Install ghq
+    install_ghq_linux
+    # Install starship
+    install_starship
 
-    # TODO
-    echo "TODO: Install git, gh, ghq, fzf, ripgrep, starship, mise on Linux"
+    # Install mise
+    install_mise
+
+    # Change default shell to zsh
+    if [[ "$SHELL" != "$(which zsh)" ]]; then
+        echo "Changing default shell to zsh..."
+        chsh -s "$(which zsh)"
+    else
+        echo "Default shell is already set to zsh."
+    fi
 fi
 
 echo "Done! Dotfiles installed successfully."
