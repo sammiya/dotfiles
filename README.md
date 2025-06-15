@@ -31,7 +31,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 
 このスクリプトは以下を実行する：
 
-1. `$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを作成
+- `$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを作成
   - `$HOME/.gitignore_global`
   - `$HOME/.gitconfig`
   - `$HOME/.zshrc`
@@ -44,7 +44,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `$HOME/.config/mise/config.toml`
   - `$HOME/.claude/settings.json`
 
-2. よく使うライブラリのインストール
+- よく使うライブラリのインストール
   - `gh`
   - `ghq`
   - `fzf`
