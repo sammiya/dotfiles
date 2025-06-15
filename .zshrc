@@ -69,6 +69,25 @@ if command -v ghq &> /dev/null && command -v fzf &> /dev/null; then
   bindkey '^]' ghq-fzf
 fi
 
+# mktouch - Create a file and its parent directories if they don't exist
+function mktouch() {
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: mktouch <file_path>"
+    return 1
+  fi
+  
+  local file="$1"
+  local dir=$(dirname "$file")
+  
+  # Create directory if it doesn't exist
+  if [[ ! -d "$dir" ]]; then
+    mkdir -p "$dir"
+  fi
+  
+  # Create the file
+  touch "$file"
+}
+
 # ===========================
 # OS-specific Configuration
 # ===========================
