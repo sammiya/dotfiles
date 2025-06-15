@@ -19,20 +19,20 @@
     renames = true
 [push]
     default = simple
-	autoSetupRemote = true
-	followTags = true
+    autoSetupRemote = true
+    followTags = true
 [pull]
     rebase = true
-	ff = only
+    ff = only
 [fetch]
-	prune = true
-	pruneTags = true
-	all = true
+    prune = true
+    pruneTags = true
+    all = true
 [help]
     autocorrect = prompt
 [commit]
     verbose = true
 [rebase]
     autosquash = true
-	autostash = true
-	updateRefs = true
+    autostash = true
+    updateRefs = true
