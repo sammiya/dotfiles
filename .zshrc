@@ -1,3 +1,16 @@
+# ===========================
+# History
+# ===========================
+
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+HISTFILESIZE=50000
+
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt extended_history
+
 autoload -U compinit
 compinit -i
 
