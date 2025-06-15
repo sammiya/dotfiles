@@ -51,10 +51,36 @@ if [[ "$OS" == "macos" ]]; then
     /opt/homebrew/bin/brew install git gh ghq fzf ripgrep
 
     # starship
-    curl -sS https://starship.rs/install.sh | sh
+    if ! command -v starship &> /dev/null; then
+        echo "starship is not installed. Installing..."
+        curl -sS https://starship.rs/install.sh | sh
+    else
+        CURRENT_STARSHIP_VERSION=$(starship --version | head -1 | awk '{print $2}')
+        
+        LATEST_STARSHIP_VERSION=$(curl -s https://api.github.com/repos/starship/starship/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
+        
+        if [ -z "$LATEST_STARSHIP_VERSION" ]; then
+            echo "Failed to fetch latest version info for starship"
+            return 1
+        fi
+
+        if [ "$CURRENT_STARSHIP_VERSION" != "$LATEST_STARSHIP_VERSION" ]; then
+            echo "Updating starship from $CURRENT_STARSHIP_VERSION to $LATEST_STARSHIP_VERSION"
+            curl -sS https://starship.rs/install.sh | sh
+        else
+            echo "starship is already up to date ($CURRENT_STARSHIP_VERSION)"
+        fi
+    fi
 
     # mise
-    curl https://mise.run | sh
+    
+    mise_install_path="$HOME/.local/bin/mise"
+
+    if [[ ! -x "$mise_install_path" ]]; then
+        curl https://mise.run | sh
+    else
+       $mise_install_path self-update
+    fi
     
     # Run mise install to install tools defined in config
     if [[ -x "$HOME/.local/bin/mise" ]]; then
