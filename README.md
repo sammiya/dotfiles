@@ -33,16 +33,16 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 
 1. `$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを作成
   - `$HOME/.gitignore_global`
-    - `$HOME/.gitconfig`
-    - `$HOME/.zshrc`
-    - `$HOME/.zprofile`
-    - `$HOME/.zshrc_Darwin` (macOS用)
-    - `$HOME/.zprofile_Darwin` (macOS用)
-    - `$HOME/.zshrc_Linux` (Linux用)
-    - `$HOME/.zprofile_Linux` (Linux用)
-    - `$HOME/.config/starship.toml`
-    - `$HOME/.config/mise/config.toml`
-    - `$HOME/.claude/settings.json`
+  - `$HOME/.gitconfig`
+  - `$HOME/.zshrc`
+  - `$HOME/.zprofile`
+  - `$HOME/.zshrc_Darwin` (macOS用)
+  - `$HOME/.zprofile_Darwin` (macOS用)
+  - `$HOME/.zshrc_Linux` (Linux用)
+  - `$HOME/.zprofile_Linux` (Linux用)
+  - `$HOME/.config/starship.toml`
+  - `$HOME/.config/mise/config.toml`
+  - `$HOME/.claude/settings.json`
 
 2. よく使うライブラリのインストール（※Ubuntu Linux 側はWIP）
   - `gh`
