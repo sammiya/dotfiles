@@ -89,41 +89,45 @@ install_mise() {
 
 # Function to install ghq on Linux
 install_ghq_linux() {
-    local temp_dir
-    temp_dir=$(mktemp -d)
-    trap 'rm -rf "$temp_dir"' EXIT
+    (
+        set -e
+        
+        local temp_dir
+        temp_dir=$(mktemp -d) || { echo "Failed to create temp dir"; exit 1; }
+        trap 'rm -rf "$temp_dir"' EXIT
 
-    local arch
-    arch=$(uname -m)
-    case "$arch" in
-        x86_64) arch=amd64 ;;
-        aarch64|arm64) arch=arm64 ;;
-        *) echo "Unsupported arch: $arch"; return 1 ;;
-    esac
+        local arch
+        arch=$(uname -m)
+        case "$arch" in
+            x86_64) arch=amd64 ;;
+            aarch64|arm64) arch=arm64 ;;
+            *) echo "Unsupported arch: $arch"; exit 1 ;;
+        esac
 
-    if ! command -v ghq &> /dev/null; then
-        echo "ghq is not installed. Installing..."
-        curl -fsSL https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_"$arch".zip -o "$temp_dir/ghq_linux_$arch.zip"
-        unzip -q "$temp_dir/ghq_linux_$arch.zip" -d "$temp_dir"
-        sudo install -m 755 "$temp_dir/ghq_linux_$arch/ghq" /usr/local/bin/
-    else
-        CURRENT_GHQ_VERSION=$(ghq --version | head -1 | awk '{print $3}')
-
-        LATEST_GHQ_VERSION=$(curl -fsSL https://api.github.com/repos/x-motemen/ghq/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
-        if [ -z "$LATEST_GHQ_VERSION" ]; then
-            echo "Failed to fetch latest version info for ghq"
-            return 1
-        fi
-
-        if [ "$CURRENT_GHQ_VERSION" != "$LATEST_GHQ_VERSION" ]; then
-            echo "Updating ghq from $CURRENT_GHQ_VERSION to $LATEST_GHQ_VERSION"
+        if ! command -v ghq &> /dev/null; then
+            echo "ghq is not installed. Installing..."
             curl -fsSL https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_"$arch".zip -o "$temp_dir/ghq_linux_$arch.zip"
             unzip -q "$temp_dir/ghq_linux_$arch.zip" -d "$temp_dir"
             sudo install -m 755 "$temp_dir/ghq_linux_$arch/ghq" /usr/local/bin/
         else
-            echo "ghq is already up to date ($CURRENT_GHQ_VERSION)"
+            CURRENT_GHQ_VERSION=$(ghq --version | head -1 | awk '{print $3}')
+
+            LATEST_GHQ_VERSION=$(curl -fsSL https://api.github.com/repos/x-motemen/ghq/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
+            if [ -z "$LATEST_GHQ_VERSION" ]; then
+                echo "Failed to fetch latest version info for ghq"
+                exit 1
+            fi
+
+            if [ "$CURRENT_GHQ_VERSION" != "$LATEST_GHQ_VERSION" ]; then
+                echo "Updating ghq from $CURRENT_GHQ_VERSION to $LATEST_GHQ_VERSION"
+                curl -fsSL https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_"$arch".zip -o "$temp_dir/ghq_linux_$arch.zip"
+                unzip -q "$temp_dir/ghq_linux_$arch.zip" -d "$temp_dir"
+                sudo install -m 755 "$temp_dir/ghq_linux_$arch/ghq" /usr/local/bin/
+            else
+                echo "ghq is already up to date ($CURRENT_GHQ_VERSION)"
+            fi
         fi
-    fi
+    )
 }
 
 # Function to setup GitHub CLI apt repository
