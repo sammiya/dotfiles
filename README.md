@@ -65,6 +65,16 @@ brew install --cask docker
 ```
 
 ##### Slack
+
 ```bash
 brew install --cask slack
 ```
+
+## TODO
+
+- [ ] Linux 側のライブラリインストール
+- [ ] VSCode の設定周りの明記
+  - 以前は `settings.json` をシンボリックリンクしていたが、環境ごとの差分をうまく管理できないので断念。ただドキュメントには載せたい
+  - よく使う拡張機能のインストール
+- [ ] Windows にも対応
+  - 原則 WSL2 の Ubuntu Linux 上で開発する想定だが、VSCode の設定などは記載したい
