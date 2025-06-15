@@ -44,7 +44,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `$HOME/.config/mise/config.toml`
   - `$HOME/.claude/settings.json`
 
-2. よく使うライブラリのインストール（※Ubuntu Linux 側はWIP）
+2. よく使うライブラリのインストール
   - `gh`
   - `ghq`
   - `fzf`
