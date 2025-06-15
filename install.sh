@@ -35,6 +35,8 @@ ln -sf "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
 # NOTE: Symlink as different name to prevent mise warnings in dotfiles repo
 ln -sf "$DOTFILES_DIR/.config/mise/config.symlink.toml" "$HOME/.config/mise/config.toml"
 
+ln -sf "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
+
 if [[ "$OS" == "macos" ]]; then
     ln -sf "$DOTFILES_DIR/.zshrc_Darwin" "$HOME/.zshrc_Darwin"
     ln -sf "$DOTFILES_DIR/.zprofile_Darwin" "$HOME/.zprofile_Darwin"
