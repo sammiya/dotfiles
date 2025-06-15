@@ -48,7 +48,6 @@ if [[ "$OS" == "macos" ]]; then
         "docker"
         "slack"
         "discord"
-        "google-japanese-ime"
     )
 
     for cask in "${optional_casks[@]}"; do
