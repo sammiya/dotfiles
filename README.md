@@ -1,4 +1,4 @@
-# dotfiles (WIP)
+# dotfiles
 
 macOSとUbuntu Linux用の個人設定ファイル集
 
@@ -80,7 +80,7 @@ brew install --cask slack
 
 ## TODO
 
-- [ ] Linux 側のライブラリインストール
+- [x] Linux 側のライブラリインストール
 - [ ] VSCode の設定周りの明記
   - 以前は `settings.json` をシンボリックリンクしていたが、環境ごとの差分をうまく管理できないので断念。ただドキュメントには載せたい
   - よく使う拡張機能のインストール
