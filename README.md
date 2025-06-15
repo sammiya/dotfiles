@@ -21,21 +21,25 @@ curl -fsSL https://raw.githubusercontent.com/sammiya/dotfiles/main/bootstrap.sh 
 このスクリプトは以下を実行する：
 1. Homebrewのインストール（macOSのみ）
 2. gitがない場合はインストール
-3. このリポジトリを `$HOME/github.com/ghq/sammiya/dotfiles` にクローン
+3. このリポジトリを `$HOME/ghq/github.com/sammiya/dotfiles` にクローン
 
 ### 2. `install.sh` で、設定ファイルへのシンボリックリンク作成と、よく使うライブラリのインストール
 
 ```
-cd $HOME/github.com/ghq/sammiya/ && ./install.sh
+cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 ```
 
 このスクリプトは以下を実行する：
 
-1. `$HOME/github.com/ghq/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを `$HOME` に作成
+1. `$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを `$HOME` に作成
   - `.gitignore_global`
     - `.gitconfig`
     - `.zshrc`
     - `.zprofile`
+    - `.zshrc_Darwin` (macOS用)
+    - `.zprofile_Darwin` (macOS用)
+    - `.zshrc_Linux` (Linux用)
+    - `.zprofile_Linux` (Linux用)
 
 2. よく使うライブラリのインストール（※Ubuntu Linux 側はWIP）
   - `gh`
