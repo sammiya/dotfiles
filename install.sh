@@ -56,7 +56,11 @@ elif [[ "$OS" == "linux" ]]; then
     sudo apt-get install -y zsh
 
     # TODO
+    echo "TODO: Install git, gh, ghq, fzf, ripgrep, starship, mise on Linux"
 fi
 
 echo "Done! Dotfiles installed successfully."
-echo "Please restart your shell or run 'source ~/.zshrc' to apply changes."
+echo "- Please restart your shell or run 'source ~/.zshrc' to apply changes."
+if command -v gh &> /dev/null; then
+    echo "- GitHub CLI (gh) is now installed. Please run 'gh auth login -p ssh' to authenticate."
+fi
