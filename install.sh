@@ -33,7 +33,7 @@ mkdir -p "$HOME/.config/mise"
 ln -sf "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
 
 # NOTE: Symlink as different name to prevent mise warnings in dotfiles repo
-ln -sf "$DOTFILES_DIR/.config/mise/config.toml" "$HOME/.config/mise/config.symlink.toml"
+ln -sf "$DOTFILES_DIR/.config/mise/config.symlink.toml" "$HOME/.config/mise/config.toml"
 
 if [[ "$OS" == "macos" ]]; then
     ln -sf "$DOTFILES_DIR/.zshrc_Darwin" "$HOME/.zshrc_Darwin"
