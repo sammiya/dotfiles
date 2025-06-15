@@ -23,6 +23,7 @@ if [[ "$OS" == "macos" ]] && [[ ! -f "/opt/homebrew/bin/brew" ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
+# Install git (macOS and Linux)
 if [[ "$OS" == "macos" ]] && ! /opt/homebrew/bin/brew list git &>/dev/null; then
     echo "Installing git via Homebrew..."
     /opt/homebrew/bin/brew install git

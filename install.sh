@@ -42,26 +42,6 @@ if [[ "$OS" == "macos" ]]; then
     # Use Homebrew
     /opt/homebrew/bin/brew install git gh ghq fzf ripgrep
 
-    optional_casks=(
-        "visual-studio-code"
-        "google-chrome"
-        "docker"
-        "slack"
-        "discord"
-    )
-
-    for cask in "${optional_casks[@]}"; do
-        read -r -p "Do you want to install $cask? (y/N): " response
-        case "$response" in
-            [yY][eE][sS]|[yY])
-                /opt/homebrew/bin/brew install --cask "$cask"
-                ;;
-            *)
-                echo "Skipping $cask installation."
-                ;;
-        esac
-    done
-
     # starship
     curl -sS https://starship.rs/install.sh | sh
 
