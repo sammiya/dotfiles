@@ -23,7 +23,6 @@
     followTags = true
 [pull]
     rebase = true
-    ff = only
 [fetch]
     prune = true
     pruneTags = true
@@ -36,3 +35,5 @@
     autosquash = true
     autostash = true
     updateRefs = true
+[include]
+    path = ~/.gitconfig.local
