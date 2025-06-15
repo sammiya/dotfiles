@@ -31,15 +31,17 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 
 このスクリプトは以下を実行する：
 
-1. `$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを `$HOME` に作成
-  - `.gitignore_global`
-    - `.gitconfig`
-    - `.zshrc`
-    - `.zprofile`
-    - `.zshrc_Darwin` (macOS用)
-    - `.zprofile_Darwin` (macOS用)
-    - `.zshrc_Linux` (Linux用)
-    - `.zprofile_Linux` (Linux用)
+1. `$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを作成
+  - `$HOME/.gitignore_global`
+    - `$HOME/.gitconfig`
+    - `$HOME/.zshrc`
+    - `$HOME/.zprofile`
+    - `$HOME/.zshrc_Darwin` (macOS用)
+    - `$HOME/.zprofile_Darwin` (macOS用)
+    - `$HOME/.zshrc_Linux` (Linux用)
+    - `$HOME/.zprofile_Linux` (Linux用)
+    - `$HOME/.config/starship.toml`
+    - `$HOME/.config/mise/config.toml`
 
 2. よく使うライブラリのインストール（※Ubuntu Linux 側はWIP）
   - `gh`
@@ -48,6 +50,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `ripgrep`
   - `starship`
   - `mise`
+  - `mise install` を実行して設定済みツールをインストール
 
 ### 3. GUI系のアプリケーションや、環境によって必要なもののインストール（※柔軟性のため、ここは README.md に記載して手動実行を想定する）
 

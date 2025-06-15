@@ -27,6 +27,14 @@ ln -sf "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 ln -sf "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 
+mkdir -p "$HOME/.config"
+mkdir -p "$HOME/.config/mise"
+
+ln -sf "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
+
+# NOTE: Symlink as different name to prevent mise warnings in dotfiles repo
+ln -sf "$DOTFILES_DIR/.config/mise/config.toml" "$HOME/.config/mise/config.symlink.toml"
+
 if [[ "$OS" == "macos" ]]; then
     ln -sf "$DOTFILES_DIR/.zshrc_Darwin" "$HOME/.zshrc_Darwin"
     ln -sf "$DOTFILES_DIR/.zprofile_Darwin" "$HOME/.zprofile_Darwin"
@@ -47,6 +55,11 @@ if [[ "$OS" == "macos" ]]; then
 
     # mise
     curl https://mise.run | sh
+    
+    # Run mise install to install tools defined in config
+    if [[ -x "$HOME/.local/bin/mise" ]]; then
+        "$HOME/.local/bin/mise" install
+    fi
 
 elif [[ "$OS" == "linux" ]]; then
     # Install via apt and other methods
