@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(cp:*)",
+      "Read(**/*.{js,ts,jsx,tsx})",
+      "Read(**/*.{py,go,rs,java,cpp,c,hpp,h})", 
+      "Read(**/*.md)",
+      "Read(**/*.{html,css,scss,sass})",
+      "Read(**/*.sql)",
+      "Read(**/Makefile)",
+      "Read(**/Dockerfile)",
+      "Read(**/*.sh)",
+      "Edit(**/*.{js,ts,jsx,tsx})",
+      "Edit(**/*.{py,go,rs,java,cpp,c,hpp,h})", 
+      "Edit(**/*.md)",
+      "Edit(**/*.{html,css,scss,sass})",
+      "Edit(**/*.sql)",
+      "Edit(**/Makefile)",
+      "Edit(**/Dockerfile)",
+      "Edit(**/*.sh)"
+    ],
+    "deny": [
+      "Bash(npm publish:*)",
+      "WebFetch(domain:*)",
+      "READ(**/.env)",
+      "READ(**/.env.local)"
+    ]
+  },
+  "includeCoAuthoredBy": false,
+  "preferredIfNotChannel": "terminal_bell"
+}

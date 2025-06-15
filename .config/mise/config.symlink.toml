@@ -1,0 +1,11 @@
+[tools]
+node = "latest"
+"npm:@anthropic-ai/claude-code" = "latest"
+"pipx:gitingest" = "latest"
+python = "latest"
+uv = "latest"
+
+[settings]
+
+[settings.pipx]
+uvx = true

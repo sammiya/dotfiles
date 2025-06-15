@@ -1,63 +1,107 @@
-# Set up the prompt
+# ===========================
+# History
+# ===========================
 
-autoload -Uz promptinit
-promptinit
-prompt adam1
-
-setopt histignorealldups sharehistory
-
-# Use emacs keybindings even if our EDITOR is set to vi
-bindkey -e
-
-# Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-HISTSIZE=1000
-SAVEHIST=1000
 HISTFILE=~/.zsh_history
+HISTSIZE=50000
+HISTFILESIZE=50000
 
-# Use modern completion system
-autoload -Uz compinit
-compinit
+setopt share_history
+setopt hist_ignore_dups
+setopt hist_reduce_blanks
+setopt extended_history
 
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
-# Mac だと使えないのでいったんコメントアウト
-# eval "$(dircolors -b)"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
+autoload -U compinit
+compinit -i
 
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# ===========================
+# Tool Initialization
+# ===========================
 
+# fzf
+if command -v fzf &> /dev/null; then
+    source <(fzf --zsh)
+fi
 
-function ghq-fzf() {
-  local src=$(ghq list | fzf)
-  if [ -n "$src" ]; then
-    BUFFER="cd $(ghq root)/$src"
-    zle accept-line
+# starship
+if command -v starship &> /dev/null; then
+    eval "$(starship init zsh)"
+fi
+
+# mise
+if [ -x "$HOME/.local/bin/mise" ]; then
+    eval "$("$HOME/.local/bin/mise" activate zsh)"
+fi
+
+# GitHub CLI completion
+if command -v gh &> /dev/null; then
+    eval "$(gh completion -s zsh)"
+fi
+
+# ===========================
+# Functions
+# ===========================
+
+# Git branch switcher with fzf
+if command -v git &> /dev/null && command -v fzf &> /dev/null; then
+  function fbr() {
+    local branches branch
+    branches=$(git branch --all | grep -v HEAD) &&
+    branch=$(echo "$branches" |
+             fzf -d $(( 2 + $(wc -l <<< "$branches") )) +m \
+                 --preview "git log --oneline --graph --date=short --color=always --pretty='format:%C(auto)%cd %h%d %s' {1}" \
+                 --preview-window=right:50%) &&
+    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+  }
+fi
+
+# ghq + fzf repository switcher
+if command -v ghq &> /dev/null && command -v fzf &> /dev/null; then
+  function ghq-fzf() {
+    local selected_dir=$(ghq list | fzf --height 40% --reverse --border --preview "ghq root && echo '/' && echo {} | sed 's|^|/|'" --preview-window=up:1)
+    if [ -n "$selected_dir" ]; then
+      BUFFER="cd $(ghq root)/$selected_dir"
+      zle accept-line
+    fi
+    zle reset-prompt
+  }
+  zle -N ghq-fzf
+  bindkey '^]' ghq-fzf
+fi
+
+# mktouch - Create a file and its parent directories if they don't exist
+function mktouch() {
+  if [[ $# -eq 0 ]]; then
+    echo "Usage: mktouch <file_path>"
+    return 1
   fi
-  zle redisplay # refresh
+  
+  local file="$1"
+  local dir=$(dirname "$file")
+  
+  # Create directory if it doesn't exist
+  if [[ ! -d "$dir" ]]; then
+    mkdir -p "$dir"
+  fi
+  
+  # Create the file
+  touch "$file"
 }
-zle -N ghq-fzf
-bindkey '^]' ghq-fzf
 
-fbr() {
-  local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-}
+# ===========================
+# OS-specific Configuration
+# ===========================
+case "$OSTYPE" in
+    darwin*)
+        [ -f ~/.zshrc_Darwin ] && source ~/.zshrc_Darwin
+        ;;
+    linux-gnu*)
+        [ -f ~/.zshrc_Linux ] && source ~/.zshrc_Linux
+        ;;
+esac
 
-# https://qiita.com/catatsuy/items/00ebf78f56960b6d43c2
-[ -f ~/.zshrc_`uname` ] && . ~/.zshrc_`uname`
-
-[ -f ~/.zshrc_local ] && . ~/.zshrc_local
+# ===========================
+# Local Configuration
+# ===========================
+# Source local configuration if it exists
+[ -f ~/.zshrc_local ] && source ~/.zshrc_local
