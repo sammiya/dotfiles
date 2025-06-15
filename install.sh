@@ -82,6 +82,7 @@ install_mise() {
     
     # Run mise install to install tools defined in config
     if [[ -x "$HOME/.local/bin/mise" ]]; then
+        export PATH="$HOME/.local/bin:$PATH"
         "$HOME/.local/bin/mise" install
     fi
 }
