@@ -39,7 +39,7 @@ if [[ -d "$DOTFILES_DIR" ]]; then
     echo "Directory $DOTFILES_DIR already exists. Skipping clone."
 else
     mkdir -p "$(dirname "$DOTFILES_DIR")"
-    git clone -b 20250614 https://github.com/sammiya/dotfiles.git "$DOTFILES_DIR"
+    git clone -b main https://github.com/sammiya/dotfiles.git "$DOTFILES_DIR"
 fi
 
 echo "Done! Dotfiles repository cloned to: $DOTFILES_DIR"
