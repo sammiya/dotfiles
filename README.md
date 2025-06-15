@@ -42,6 +42,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
     - `$HOME/.zprofile_Linux` (Linux用)
     - `$HOME/.config/starship.toml`
     - `$HOME/.config/mise/config.toml`
+    - `$HOME/.claude/settings.json`
 
 2. よく使うライブラリのインストール（※Ubuntu Linux 側はWIP）
   - `gh`
