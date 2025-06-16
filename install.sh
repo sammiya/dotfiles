@@ -51,11 +51,11 @@ install_starship() {
     if ! command -v starship &> /dev/null; then
         echo "starship is not installed. Installing..."
         curl -fsSL https://starship.rs/install.sh | sh -s -- -y
-    else     
+    else
         CURRENT_STARSHIP_VERSION=$(starship --version | head -1 | awk '{print $2}')
-        
+
         LATEST_STARSHIP_VERSION=$(curl -fsSL https://api.github.com/repos/starship/starship/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
-        
+
         if [ -z "$LATEST_STARSHIP_VERSION" ]; then
             echo "Failed to fetch latest version info for starship"
             return 1
@@ -79,7 +79,7 @@ install_mise() {
     else
        "$mise_install_path" self-update
     fi
-    
+
     # Run mise install to install tools defined in config
     if [[ -x "$HOME/.local/bin/mise" ]]; then
         export PATH="$HOME/.local/bin:$PATH"
@@ -91,7 +91,7 @@ install_mise() {
 install_ghq_linux() {
     (
         set -e
-        
+
         local temp_dir
         temp_dir=$(mktemp -d) || { echo "Failed to create temp dir"; exit 1; }
         trap 'rm -rf "$temp_dir"' EXIT
@@ -130,6 +130,54 @@ install_ghq_linux() {
     )
 }
 
+# Function to install fzf on Linux
+install_fzf_linux() {
+    (
+        set -e
+
+        local temp_dir
+        temp_dir=$(mktemp -d) || { echo "Failed to create temp dir"; exit 1; }
+        trap 'rm -rf "$temp_dir"' EXIT
+
+        local arch
+        arch=$(uname -m)
+        case "$arch" in
+            x86_64) arch=amd64 ;;
+            aarch64|arm64) arch=arm64 ;;
+            *) echo "Unsupported arch: $arch"; exit 1 ;;
+        esac
+
+        if ! command -v fzf &> /dev/null; then
+            echo "fzf is not installed. Installing..."
+            LATEST_FZF_VERSION=$(curl -fsSL https://api.github.com/repos/junegunn/fzf/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
+            if [ -z "$LATEST_FZF_VERSION" ]; then
+                echo "Failed to fetch latest version info for fzf"
+                exit 1
+            fi
+            curl -fsSL "https://github.com/junegunn/fzf/releases/download/v${LATEST_FZF_VERSION}/fzf-${LATEST_FZF_VERSION}-linux_${arch}.tar.gz" -o "$temp_dir/fzf.tar.gz"
+            tar -xzf "$temp_dir/fzf.tar.gz" -C "$temp_dir"
+            sudo install -m 755 "$temp_dir/fzf" /usr/local/bin/
+        else
+            CURRENT_FZF_VERSION=$(fzf --version | head -1 | awk '{print $1}')
+
+            LATEST_FZF_VERSION=$(curl -fsSL https://api.github.com/repos/junegunn/fzf/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
+            if [ -z "$LATEST_FZF_VERSION" ]; then
+                echo "Failed to fetch latest version info for fzf"
+                exit 1
+            fi
+
+            if [ "$CURRENT_FZF_VERSION" != "$LATEST_FZF_VERSION" ]; then
+                echo "Updating fzf from $CURRENT_FZF_VERSION to $LATEST_FZF_VERSION"
+                curl -fsSL "https://github.com/junegunn/fzf/releases/download/v${LATEST_FZF_VERSION}/fzf-${LATEST_FZF_VERSION}-linux_${arch}.tar.gz" -o "$temp_dir/fzf.tar.gz"
+                tar -xzf "$temp_dir/fzf.tar.gz" -C "$temp_dir"
+                sudo install -m 755 "$temp_dir/fzf" /usr/local/bin/
+            else
+                echo "fzf is already up to date ($CURRENT_FZF_VERSION)"
+            fi
+        fi
+    )
+}
+
 # Function to setup GitHub CLI apt repository
 setup_github_cli_apt_repo() {
     # https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
@@ -162,12 +210,16 @@ elif [[ "$OS" == "linux" ]]; then
 
     # Install via apt
     sudo apt-get update
-    
-    # Install git, gh, fzf, ripgrep, zsh, unzip (for ghq)
-    sudo apt-get install -y git gh fzf ripgrep zsh unzip
+
+    # Install git, gh, ripgrep, zsh, unzip (for ghq)
+    sudo apt-get install -y git gh ripgrep zsh unzip
 
     # Install ghq
     install_ghq_linux
+
+    # Install fzf from binary
+    install_fzf_linux
+
     # Install starship
     install_starship
 
