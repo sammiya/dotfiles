@@ -88,6 +88,8 @@ brew install --cask slack
 
 ※ `./install.sh` に統合するか検討
 
+WSL2 上の Ubuntu Linux の場合、歯車マークから Resources > WSL INTEGRATION で、Docker Desktop の WSL Integration を有効にする
+
 ## TODO
 
 - [x] Linux 側のライブラリインストール
