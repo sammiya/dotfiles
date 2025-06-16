@@ -35,5 +35,7 @@
     autosquash = true
     autostash = true
     updateRefs = true
+[ghq]
+    user = sammiya
 [include]
     path = ~/.gitconfig.local
