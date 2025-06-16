@@ -78,6 +78,16 @@ brew install --cask docker
 brew install --cask slack
 ```
 
+#### Ubuntu Linux
+
+##### docker
+
+```bash
+./install-docker-linux.sh
+```
+
+※ `./install.sh` に統合するか検討
+
 ## TODO
 
 - [x] Linux 側のライブラリインストール
