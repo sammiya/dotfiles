@@ -4,7 +4,7 @@
 
 HISTFILE=~/.zsh_history
 HISTSIZE=50000
-HISTFILESIZE=50000
+SAVEHIST=50000
 
 setopt share_history
 setopt hist_ignore_dups
@@ -15,8 +15,14 @@ autoload -U compinit
 compinit -i
 
 # ===========================
-# Tool Initialization
+# Key Bindings
 # ===========================
+
+bindkey -e
+
+# ===========================
+# Tool Initialization
+# ===========================a
 
 # fzf
 if command -v fzf &> /dev/null; then
@@ -75,15 +81,15 @@ function mktouch() {
     echo "Usage: mktouch <file_path>"
     return 1
   fi
-  
+
   local file="$1"
   local dir=$(dirname "$file")
-  
+
   # Create directory if it doesn't exist
   if [[ ! -d "$dir" ]]; then
     mkdir -p "$dir"
   fi
-  
+
   # Create the file
   touch "$file"
 }
