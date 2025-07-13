@@ -49,6 +49,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `ghq`
   - `fzf`
   - `ripgrep`
+  - `jq`
   - `starship`
   - `mise`
   - `mise install` を実行して設定済みツールをインストール
