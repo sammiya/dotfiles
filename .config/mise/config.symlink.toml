@@ -11,7 +11,7 @@ python = "latest"
 uv = "latest"
 
 [settings]
-idiomatic_version_file_enable_tools = ["node", "python", "ruby"]
+idiomatic_version_file_enable_tools = ["node", "ruby"]
 
 [settings.pipx]
 uvx = true
