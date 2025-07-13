@@ -79,6 +79,11 @@ brew install --cask docker
 brew install --cask slack
 ```
 
+# Karabiner Elements
+```bash
+brew install --cask karabiner-elements
+```
+
 #### Ubuntu Linux
 
 ##### docker
@@ -94,6 +99,7 @@ WSL2 上の Ubuntu Linux の場合、歯車マークから Resources > WSL INTEG
 ## TODO
 
 - [x] Linux 側のライブラリインストール
+- [ ] starship の表示に必要なフォントのインストール
 - [ ] VSCode の設定周りの明記
   - 以前は `settings.json` をシンボリックリンクしていたが、環境ごとの差分をうまく管理できないので断念。ただドキュメントには載せたい
   - よく使う拡張機能のインストール
