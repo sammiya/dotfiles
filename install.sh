@@ -196,7 +196,7 @@ if [[ "$OS" == "macos" ]]; then
     # Use Homebrew
     /opt/homebrew/bin/brew update
 
-    /opt/homebrew/bin/brew install git gh ghq fzf ripgrep
+    /opt/homebrew/bin/brew install git gh ghq fzf ripgrep jq
 
     # Install starship
     install_starship
@@ -211,8 +211,8 @@ elif [[ "$OS" == "linux" ]]; then
     # Install via apt
     sudo apt-get update
 
-    # Install git, gh, ripgrep, zsh, unzip (for ghq)
-    sudo apt-get install -y git gh ripgrep zsh unzip
+    # Install git, gh, ripgrep, zsh, unzip (for ghq), jq
+    sudo apt-get install -y git gh ripgrep zsh unzip jq
 
     # Install ghq
     install_ghq_linux
