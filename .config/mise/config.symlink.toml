@@ -1,6 +1,8 @@
 [tools]
+actionlint = "latest"
 node = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
+"npm:@google/gemini-cli" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:diff2html-cli" = "latest"
 "npm:textlint" = "latest"
