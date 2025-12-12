@@ -79,7 +79,7 @@ brew install --cask docker
 brew install --cask slack
 ```
 
-# Karabiner Elements
+##### Karabiner Elements
 ```bash
 brew install --cask karabiner-elements
 ```
