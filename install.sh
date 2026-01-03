@@ -208,6 +208,9 @@ elif [[ "$OS" == "linux" ]]; then
     # Setup GitHub CLI repository
     setup_github_cli_apt_repo
 
+    # Add Git PPA for latest git version
+    sudo add-apt-repository -y ppa:git-core/ppa
+
     # Install via apt
     sudo apt-get update
 
