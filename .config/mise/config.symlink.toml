@@ -4,6 +4,7 @@ node = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
+"npm:@openai/codex" = "latest"
 "npm:diff2html-cli" = "latest"
 "npm:textlint" = "latest"
 "npm:vercel" = "latest"
@@ -13,7 +14,7 @@ python = "latest"
 uv = "latest"
 
 [settings]
-idiomatic_version_file_enable_tools = ["node", "ruby"]
+idiomatic_version_file_enable_tools = ["node", "ruby", "python"]
 
 [settings.pipx]
 uvx = true

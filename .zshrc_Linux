@@ -1,0 +1,4 @@
+# WSL-specific settings
+if [[ -f /proc/version ]] && grep -qi microsoft /proc/version; then
+    export BROWSER="wslview"
+fi

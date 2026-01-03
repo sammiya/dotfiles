@@ -1,8 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add *)",
-      "Bash(git commit *)",
+      "Bash(git add :*)",
+      "Bash(git commit :*)",
       "Bash(mkdir:*)",
       "Bash(touch:*)",
       "Bash(cp:*)",
@@ -28,10 +28,9 @@
     "deny": [
       "Bash(npm publish:*)",
       "WebFetch(domain:*)",
-      "READ(**/.env)",
-      "READ(**/.env.local)"
+      "Read(**/.env)",
+      "Read(**/.env.local)"
     ]
   },
-  "includeCoAuthoredBy": false,
-  "preferredIfNotChannel": "terminal_bell"
+  "includeCoAuthoredBy": false
 }
