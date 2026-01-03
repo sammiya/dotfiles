@@ -94,6 +94,59 @@ function mktouch() {
   touch "$file"
 }
 
+# ghstart - Create GitHub repo and cd into it
+if command -v gh &> /dev/null && command -v ghq &> /dev/null; then
+  function ghstart() {
+    local visibility="--private"
+    local -a gh_extra=()
+
+    while [[ $# -gt 0 ]]; do
+      case "$1" in
+        -P|--public) visibility="--public"; shift ;;
+        --)          shift; gh_extra=("$@"); break ;;
+        -h|--help)
+          cat <<'USAGE'
+Usage: ghstart <repo> [-P|--public] [-- <gh repo create options>]
+
+Create a GitHub repository, clone via ghq, and cd into it.
+If the repository already exists, skip creation and just clone.
+
+Arguments:
+  <repo>    Repository name (e.g., "my-project" or "myorg/my-project")
+
+Options:
+  -P, --public    Create as public (default: private)
+  --              Pass remaining args to "gh repo create"
+
+Examples:
+  ghstart my-project
+  ghstart my-project -P
+  ghstart my-org/my-project
+  ghstart my-project -- --license mit --gitignore Node --add-readme
+USAGE
+          return 0
+          ;;
+        -*) echo "Unknown option: $1" >&2; return 1 ;;
+        *)  break ;;
+      esac
+    done
+
+    local repo="${1:?Repository name required}"
+    local full="$repo"
+    [[ "$repo" != */* ]] && full="$(gh api user --jq .login)/${repo}"
+
+    # Create repo (skip if already exists)
+    if gh repo view "$full" &>/dev/null; then
+      echo "Repository '$full' already exists, skipping creation"
+    else
+      gh repo create "$full" "$visibility" "${gh_extra[@]}" || return 1
+    fi
+
+    ghq get "git@github.com:${full}.git" || return 1
+    cd "$(ghq root)/github.com/${full}"
+  }
+fi
+
 # ===========================
 # OS-specific Configuration
 # ===========================
