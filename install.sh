@@ -189,6 +189,11 @@ setup_github_cli_apt_repo() {
         && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 }
 
+# Function to install Claude Code
+install_claude_code() {
+    curl -fsSL https://claude.ai/install.sh | bash
+}
+
 # Install tools
 echo "Installing tools..."
 
@@ -203,6 +208,9 @@ if [[ "$OS" == "macos" ]]; then
 
     # Install mise
     install_mise
+
+    # Install Claude Code
+    install_claude_code
 
 elif [[ "$OS" == "linux" ]]; then
     # Setup GitHub CLI repository
@@ -228,6 +236,9 @@ elif [[ "$OS" == "linux" ]]; then
 
     # Install mise
     install_mise
+
+    # Install Claude Code
+    install_claude_code
 
     # Change default shell to zsh
     if [[ "$SHELL" != "$(which zsh)" ]]; then

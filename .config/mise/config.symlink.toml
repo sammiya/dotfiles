@@ -2,7 +2,6 @@
 actionlint = "latest"
 bun = "latest"
 node = "latest"
-"npm:@anthropic-ai/claude-code" = "latest"
 "npm:@google/gemini-cli" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:@openai/codex" = "latest"
