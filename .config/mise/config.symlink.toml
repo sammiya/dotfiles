@@ -1,5 +1,6 @@
 [tools]
 actionlint = "latest"
+bun = "latest"
 node = "latest"
 "npm:@anthropic-ai/claude-code" = "latest"
 "npm:@google/gemini-cli" = "latest"
@@ -10,6 +11,7 @@ node = "latest"
 "npm:vercel" = "latest"
 "pipx:gitingest" = "latest"
 "pipx:jupytext" = "latest"
+pnpm = "latest"
 python = "latest"
 uv = "latest"
 
