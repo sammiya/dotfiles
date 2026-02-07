@@ -37,6 +37,8 @@ fi
 # mise
 if [ -x "$HOME/.local/bin/mise" ]; then
     eval "$("$HOME/.local/bin/mise" activate zsh)"
+    # Add tool to shared (dotfiles-managed) config
+    alias mise-shared='mise use --path ~/.config/mise/conf.d/00-shared.toml'
 fi
 
 # GitHub CLI completion

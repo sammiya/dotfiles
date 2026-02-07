@@ -29,12 +29,21 @@ ln -sf "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 
 mkdir -p "$HOME/.config"
 mkdir -p "$HOME/.claude"
-mkdir -p "$HOME/.config/mise"
+mkdir -p "$HOME/.config/mise/conf.d"
 
 ln -sf "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
 
-# NOTE: Symlink as different name to prevent mise warnings in dotfiles repo
-ln -sf "$DOTFILES_DIR/.config/mise/config.symlink.toml" "$HOME/.config/mise/config.toml"
+# Shared mise config: symlink to conf.d/ (merged with local config.toml)
+ln -sf "$DOTFILES_DIR/.config/mise/conf.d/00-shared.toml" "$HOME/.config/mise/conf.d/00-shared.toml"
+
+# Local mise config: ensure config.toml is a real file (not a symlink to dotfiles)
+# mise use -g writes here, so it must be a local file to avoid dotfiles diffs
+if [ -L "$HOME/.config/mise/config.toml" ]; then
+    rm -f "$HOME/.config/mise/config.toml"
+fi
+if [ ! -f "$HOME/.config/mise/config.toml" ]; then
+    touch "$HOME/.config/mise/config.toml"
+fi
 
 ln -sf "$DOTFILES_DIR/.claude/settings.json" "$HOME/.claude/settings.json"
 

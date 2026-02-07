@@ -1,16 +1,8 @@
 [tools]
-actionlint = "latest"
-bun = "latest"
 node = "latest"
 "npm:@google/gemini-cli" = "latest"
-"npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:@openai/codex" = "latest"
-"npm:diff2html-cli" = "latest"
-"npm:textlint" = "latest"
-"npm:vercel" = "latest"
 "pipx:gitingest" = "latest"
-"pipx:jupytext" = "latest"
-pnpm = "latest"
 python = "latest"
 uv = "latest"
 
