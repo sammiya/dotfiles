@@ -4,5 +4,6 @@ if [[ -f /proc/version ]] && grep -qi microsoft /proc/version; then
 
     # Provide macOS-compatible command aliases for a consistent experience
     alias pbcopy='clip.exe'
+    pbpaste() { powershell.exe -command 'Get-Clipboard' | tr -d '\r'; }
     alias open='wslview'
 fi
