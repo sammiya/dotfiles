@@ -50,6 +50,38 @@ fi
 # Functions
 # ===========================
 
+# gitingest to clipboard
+if command -v gitingest &> /dev/null; then
+  function gic() {
+    case "$1" in
+      -h|--help)
+        cat <<'USAGE'
+Usage: gic [path]
+
+Run gitingest on the given path (default: .) and copy the output to clipboard.
+
+Arguments:
+  [path]    Target directory (default: current directory)
+
+Options:
+  -h, --help    Show this help
+USAGE
+        return 0
+        ;;
+    esac
+
+    local target="${1:-.}"
+
+    if [[ ! -d "$target" ]]; then
+      echo "Error: '$target' is not a directory" >&2
+      return 1
+    fi
+
+    gitingest "$target" -o - | pbcopy || return 1
+    echo "Copied gitingest output of '$target' to clipboard"
+  }
+fi
+
 # Git branch switcher with fzf
 if command -v git &> /dev/null && command -v fzf &> /dev/null; then
   function fbr() {

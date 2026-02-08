@@ -1,4 +1,8 @@
 # WSL-specific settings
 if [[ -f /proc/version ]] && grep -qi microsoft /proc/version; then
     export BROWSER="wslview"
+
+    # Provide macOS-compatible command aliases for a consistent experience
+    alias pbcopy='clip.exe'
+    alias open='wslview'
 fi
