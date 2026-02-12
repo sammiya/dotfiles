@@ -3,7 +3,11 @@ if [[ -f /proc/version ]] && grep -qi microsoft /proc/version; then
     export BROWSER="wslview"
 
     # Provide macOS-compatible command aliases for a consistent experience
-    alias pbcopy='clip.exe'
-    pbpaste() { powershell.exe -command 'Get-Clipboard' | tr -d '\r'; }
+    pbcopy() {
+        powershell.exe -NoProfile -Command "[Console]::InputEncoding = [System.Text.UTF8Encoding]::new(\$false); \$text = [Console]::In.ReadToEnd(); Set-Clipboard -Value \$text"
+    }
+    pbpaste() {
+        powershell.exe -NoProfile -Command "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new(\$false); Get-Clipboard -Raw" | tr -d '\r'
+    }
     alias open='wslview'
 fi
