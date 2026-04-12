@@ -41,8 +41,12 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `$HOME/.zshrc_Linux` (Linux用)
   - `$HOME/.zprofile_Linux` (Linux用)
   - `$HOME/.config/starship.toml`
-  - `$HOME/.config/mise/config.toml`
+  - `$HOME/.config/mise/conf.d/00-shared.toml`
   - `$HOME/.claude/settings.json`
+
+- `mise` のローカル設定ファイルを用意
+  - `$HOME/.config/mise/config.toml`
+  - これは symlink ではなくローカル実ファイルとして作成し、`mise use -g` などの環境依存な変更を dotfiles 側に混ぜない
 
 - よく使うライブラリのインストール
   - `gh`
