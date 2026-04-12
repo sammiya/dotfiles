@@ -57,7 +57,15 @@ fi
 
 # Function to install starship
 install_starship() {
-    if ! command -v starship &> /dev/null; then
+    if [[ "$OS" == "macos" ]]; then
+        if /opt/homebrew/bin/brew list starship &> /dev/null; then
+            echo "Updating starship via Homebrew..."
+            /opt/homebrew/bin/brew upgrade starship
+        else
+            echo "Installing starship via Homebrew..."
+            /opt/homebrew/bin/brew install starship
+        fi
+    elif ! command -v starship &> /dev/null; then
         echo "starship is not installed. Installing..."
         curl -fsSL https://starship.rs/install.sh | sh -s -- -y
     else
@@ -92,6 +100,7 @@ install_mise() {
     # Run mise install to install tools defined in config
     if [[ -x "$HOME/.local/bin/mise" ]]; then
         export PATH="$HOME/.local/bin:$PATH"
+        "$HOME/.local/bin/mise" trust -y "$DOTFILES_DIR/.config/mise/conf.d/00-shared.toml"
         "$HOME/.local/bin/mise" install
     fi
 }
