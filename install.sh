@@ -200,7 +200,11 @@ setup_github_cli_apt_repo() {
 
 # Function to install Claude Code
 install_claude_code() {
-    curl -fsSL https://claude.ai/install.sh | bash
+    if ! command -v claude &> /dev/null; then
+        curl -fsSL https://claude.ai/install.sh | bash
+    else
+        echo "Claude Code is already installed; skipping reinstall."
+    fi
 }
 
 # Install tools
