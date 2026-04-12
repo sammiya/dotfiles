@@ -240,7 +240,15 @@ USAGE
       gh repo create "$full" "$visibility" "${gh_extra[@]}" || return 1
     fi
 
-    ghq get "git@github.com:${full}.git" || return 1
+    local protocol clone_url
+    protocol="$(gh config get git_protocol -h github.com 2>/dev/null || echo ssh)"
+    if [[ "$protocol" == "https" ]]; then
+      clone_url="https://github.com/${full}.git"
+    else
+      clone_url="git@github.com:${full}.git"
+    fi
+
+    ghq get "$clone_url" || return 1
     cd "$(ghq root)/github.com/${full}"
   }
 fi
