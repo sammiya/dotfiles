@@ -63,6 +63,18 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 
 #### macOS
 
+##### Codex App
+
+```bash
+brew install --cask codex-app
+```
+
+##### Claude
+
+```bash
+brew install --cask claude
+```
+
 ##### VSCode
 
 ```bash
@@ -91,6 +103,12 @@ brew install --cask slack
 
 ```bash
 brew install --cask karabiner-elements
+```
+
+##### azooKey on macOS
+
+```bash
+brew install azooKey
 ```
 
 #### Ubuntu Linux
