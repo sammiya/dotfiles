@@ -49,11 +49,23 @@ if command -v gh &> /dev/null; then
 fi
 
 # ===========================
+# OS-specific Configuration
+# ===========================
+case "$OSTYPE" in
+    darwin*)
+        [ -f ~/.zshrc_Darwin ] && source ~/.zshrc_Darwin
+        ;;
+    linux-gnu*)
+        [ -f ~/.zshrc_Linux ] && source ~/.zshrc_Linux
+        ;;
+esac
+
+# ===========================
 # Functions
 # ===========================
 
 # gitingest to clipboard
-if command -v gitingest &> /dev/null; then
+if command -v gitingest &> /dev/null && command -v pbcopy &> /dev/null; then
   function gic() {
     case "$1" in
       -h|--help)
@@ -85,10 +97,11 @@ USAGE
 fi
 
 # Save clipboard content to a file
-function pbsave() {
-  case "$1" in
-    -h|--help)
-      cat <<'USAGE'
+if command -v pbpaste &> /dev/null; then
+  function pbsave() {
+    case "$1" in
+      -h|--help)
+        cat <<'USAGE'
 Usage: pbsave [filename]
 
 Save clipboard content to a file in the current directory.
@@ -108,45 +121,46 @@ MIME → Extension mapping:
   application/xml   → .xml
   (other)           → .md
 USAGE
-      return 0
-      ;;
-  esac
-
-  local content
-  content=$(pbpaste)
-
-  if [[ -z "$content" ]]; then
-    echo "Error: clipboard is empty" >&2
-    return 1
-  fi
-
-  local name="${1:-paste}"
-
-  # Add extension if filename has none
-  if [[ "$name" != *.* ]]; then
-    local mime
-    mime=$(printf '%s' "$content" | file -b --mime-type -)
-    case "$mime" in
-      text/html)        name="${name}.html" ;;
-      application/json) name="${name}.json" ;;
-      text/xml|application/xml) name="${name}.xml" ;;
-      *)                name="${name}.md" ;;
+        return 0
+        ;;
     esac
-  fi
 
-  # Avoid overwriting: paste.md -> paste-1.md -> paste-2.md ...
-  if [[ -e "$name" ]]; then
-    local base="${name%.*}" ext="${name##*.}"
-    local i=1
-    while [[ -e "${base}-${i}.${ext}" ]]; do
-      (( i++ ))
-    done
-    name="${base}-${i}.${ext}"
-  fi
+    local content
+    content=$(pbpaste)
 
-  printf '%s' "$content" > "$name"
-  echo "Saved clipboard to $name"
-}
+    if [[ -z "$content" ]]; then
+      echo "Error: clipboard is empty" >&2
+      return 1
+    fi
+
+    local name="${1:-paste}"
+
+    # Add extension if filename has none
+    if [[ "$name" != *.* ]]; then
+      local mime
+      mime=$(printf '%s' "$content" | file -b --mime-type -)
+      case "$mime" in
+        text/html)        name="${name}.html" ;;
+        application/json) name="${name}.json" ;;
+        text/xml|application/xml) name="${name}.xml" ;;
+        *)                name="${name}.md" ;;
+      esac
+    fi
+
+    # Avoid overwriting: paste.md -> paste-1.md -> paste-2.md ...
+    if [[ -e "$name" ]]; then
+      local base="${name%.*}" ext="${name##*.}"
+      local i=1
+      while [[ -e "${base}-${i}.${ext}" ]]; do
+        (( i++ ))
+      done
+      name="${base}-${i}.${ext}"
+    fi
+
+    printf '%s' "$content" > "$name"
+    echo "Saved clipboard to $name"
+  }
+fi
 
 # Git branch switcher with fzf
 if command -v git &> /dev/null && command -v fzf &> /dev/null; then
@@ -254,18 +268,6 @@ USAGE
     cd "$(ghq root)/github.com/${full}"
   }
 fi
-
-# ===========================
-# OS-specific Configuration
-# ===========================
-case "$OSTYPE" in
-    darwin*)
-        [ -f ~/.zshrc_Darwin ] && source ~/.zshrc_Darwin
-        ;;
-    linux-gnu*)
-        [ -f ~/.zshrc_Linux ] && source ~/.zshrc_Linux
-        ;;
-esac
 
 # ===========================
 # Local Configuration
