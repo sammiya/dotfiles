@@ -88,6 +88,10 @@ if [[ "$OS" == "macos" ]]; then
     install_claude_code
 
 elif [[ "$OS" == "linux" ]]; then
+    # Install prerequisites for add-apt-repository and HTTPS installers
+    sudo apt-get update
+    sudo apt-get install -y ca-certificates curl software-properties-common
+
     # Add Git PPA for latest git version
     sudo add-apt-repository -y ppa:git-core/ppa
 
