@@ -91,15 +91,15 @@ brew install --cask karabiner-elements
 
 #### Ubuntu Linux
 
-##### docker
+##### Docker
+
+通常の Ubuntu に Docker Engine を入れる場合:
 
 ```bash
 ./install-docker-linux.sh
 ```
 
-※ `./install.sh` に統合するか検討
-
-WSL2 上の Ubuntu Linux の場合、歯車マークから Resources > WSL INTEGRATION で、Docker Desktop の WSL Integration を有効にする
+WSL2 上の Ubuntu で Docker Desktop の WSL Integration を使う場合は、`install-docker-linux.sh` は実行せず、Docker Desktop 側で Resources > WSL INTEGRATION を有効にする。
 
 ## TODO
 
