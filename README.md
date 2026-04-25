@@ -51,12 +51,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `gnupg`
   - `mise`
   - `spaceship`
-  - `mise install` を実行して設定済みツールをインストール
-    - `github-cli` (`gh` コマンド)
-    - `ghq`
-    - `fzf`
-    - `ripgrep`
-    - `jq`
+  - `mise install` を実行して `.config/mise/conf.d/00-shared.toml` の CLI・言語ランタイムをインストール
 
 設定ファイルへのシンボリックリンクだけ作り直したい場合は、以下を実行する：
 
