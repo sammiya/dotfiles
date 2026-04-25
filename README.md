@@ -31,7 +31,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 
 このスクリプトは以下を実行する：
 
-- `$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを作成
+- `link.sh` を実行して、`$HOME/ghq/github.com/sammiya/dotfiles` 内の設定ファイルへのシンボリックリンクを作成
   - `$HOME/.gitignore_global`
   - `$HOME/.gitconfig`
   - `$HOME/.zshrc`
@@ -57,6 +57,12 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
     - `fzf`
     - `ripgrep`
     - `jq`
+
+設定ファイルへのシンボリックリンクだけ作り直したい場合は、以下を実行する：
+
+```bash
+./link.sh
+```
 
 ### 3. GUI系のアプリケーションや、環境によって必要なもののインストール（※柔軟性のため、ここは README.md に記載して手動実行を想定する）
 
