@@ -15,7 +15,7 @@ macOSとUbuntu Linux用の個人設定ファイル集
 
 ```bash
 sudo -v
-curl -fsSL https://raw.githubusercontent.com/sammiya/dotfiles/main/bootstrap.sh | bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/sammiya/dotfiles/main/bootstrap.sh)"
 ```
 
 このスクリプトは以下を実行する：
