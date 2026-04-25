@@ -24,21 +24,16 @@ bindkey -e
 # Tool Initialization
 # ===========================
 
-# fzf
-if command -v fzf &> /dev/null; then
-    source <(fzf --zsh)
-fi
-
-# starship
-if command -v starship &> /dev/null; then
-    eval "$(starship init zsh)"
-fi
-
 # mise
 if [ -x "$HOME/.local/bin/mise" ]; then
     eval "$("$HOME/.local/bin/mise" activate zsh)"
     # Add tool to shared (dotfiles-managed) config
     alias mise-shared='mise use --path ~/.config/mise/conf.d/00-shared.toml'
+fi
+
+# fzf
+if command -v fzf &> /dev/null; then
+    source <(fzf --zsh)
 fi
 
 # GitHub CLI completion

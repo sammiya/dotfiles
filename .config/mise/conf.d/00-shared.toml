@@ -5,6 +5,11 @@ codex = "latest"
 "pipx:gitingest" = "latest"
 python = "latest"
 uv = "latest"
+github-cli = "latest"
+ghq = "latest"
+fzf = "latest"
+ripgrep = "latest"
+jq = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node", "ruby", "python"]

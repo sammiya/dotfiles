@@ -31,8 +31,6 @@ mkdir -p "$HOME/.config"
 mkdir -p "$HOME/.claude"
 mkdir -p "$HOME/.config/mise/conf.d"
 
-ln -sf "$DOTFILES_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
-
 # Shared mise config: symlink to conf.d/ (merged with local config.toml)
 ln -sf "$DOTFILES_DIR/.config/mise/conf.d/00-shared.toml" "$HOME/.config/mise/conf.d/00-shared.toml"
 
@@ -55,38 +53,6 @@ elif [[ "$OS" == "linux" ]]; then
     ln -sf "$DOTFILES_DIR/.zprofile_Linux" "$HOME/.zprofile_Linux"
 fi
 
-# Function to install starship
-install_starship() {
-    if [[ "$OS" == "macos" ]]; then
-        if /opt/homebrew/bin/brew list starship &> /dev/null; then
-            echo "Updating starship via Homebrew..."
-            /opt/homebrew/bin/brew upgrade starship
-        else
-            echo "Installing starship via Homebrew..."
-            /opt/homebrew/bin/brew install starship
-        fi
-    elif ! command -v starship &> /dev/null; then
-        echo "starship is not installed. Installing..."
-        curl -fsSL https://starship.rs/install.sh | sh -s -- -y
-    else
-        CURRENT_STARSHIP_VERSION=$(starship --version | head -1 | awk '{print $2}')
-
-        LATEST_STARSHIP_VERSION=$(curl -fsSL https://api.github.com/repos/starship/starship/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
-
-        if [ -z "$LATEST_STARSHIP_VERSION" ]; then
-            echo "Failed to fetch latest version info for starship"
-            return 1
-        fi
-
-        if [ "$CURRENT_STARSHIP_VERSION" != "$LATEST_STARSHIP_VERSION" ]; then
-            echo "Updating starship from $CURRENT_STARSHIP_VERSION to $LATEST_STARSHIP_VERSION"
-            curl -fsSL https://starship.rs/install.sh | sh -s -- -y
-        else
-            echo "starship is already up to date ($CURRENT_STARSHIP_VERSION)"
-        fi
-    fi
-}
-
 # Function to install mise
 install_mise() {
     mise_install_path="$HOME/.local/bin/mise"
@@ -105,108 +71,6 @@ install_mise() {
     fi
 }
 
-# Function to install ghq on Linux
-install_ghq_linux() {
-    (
-        set -e
-
-        local temp_dir
-        temp_dir=$(mktemp -d) || { echo "Failed to create temp dir"; exit 1; }
-        trap 'rm -rf "$temp_dir"' EXIT
-
-        local arch
-        arch=$(uname -m)
-        case "$arch" in
-            x86_64) arch=amd64 ;;
-            aarch64|arm64) arch=arm64 ;;
-            *) echo "Unsupported arch: $arch"; exit 1 ;;
-        esac
-
-        if ! command -v ghq &> /dev/null; then
-            echo "ghq is not installed. Installing..."
-            curl -fsSL https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_"$arch".zip -o "$temp_dir/ghq_linux_$arch.zip"
-            unzip -q "$temp_dir/ghq_linux_$arch.zip" -d "$temp_dir"
-            sudo install -m 755 "$temp_dir/ghq_linux_$arch/ghq" /usr/local/bin/
-        else
-            CURRENT_GHQ_VERSION=$(ghq --version | head -1 | awk '{print $3}')
-
-            LATEST_GHQ_VERSION=$(curl -fsSL https://api.github.com/repos/x-motemen/ghq/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
-            if [ -z "$LATEST_GHQ_VERSION" ]; then
-                echo "Failed to fetch latest version info for ghq"
-                exit 1
-            fi
-
-            if [ "$CURRENT_GHQ_VERSION" != "$LATEST_GHQ_VERSION" ]; then
-                echo "Updating ghq from $CURRENT_GHQ_VERSION to $LATEST_GHQ_VERSION"
-                curl -fsSL https://github.com/x-motemen/ghq/releases/latest/download/ghq_linux_"$arch".zip -o "$temp_dir/ghq_linux_$arch.zip"
-                unzip -q "$temp_dir/ghq_linux_$arch.zip" -d "$temp_dir"
-                sudo install -m 755 "$temp_dir/ghq_linux_$arch/ghq" /usr/local/bin/
-            else
-                echo "ghq is already up to date ($CURRENT_GHQ_VERSION)"
-            fi
-        fi
-    )
-}
-
-# Function to install fzf on Linux
-install_fzf_linux() {
-    (
-        set -e
-
-        local temp_dir
-        temp_dir=$(mktemp -d) || { echo "Failed to create temp dir"; exit 1; }
-        trap 'rm -rf "$temp_dir"' EXIT
-
-        local arch
-        arch=$(uname -m)
-        case "$arch" in
-            x86_64) arch=amd64 ;;
-            aarch64|arm64) arch=arm64 ;;
-            *) echo "Unsupported arch: $arch"; exit 1 ;;
-        esac
-
-        if ! command -v fzf &> /dev/null; then
-            echo "fzf is not installed. Installing..."
-            LATEST_FZF_VERSION=$(curl -fsSL https://api.github.com/repos/junegunn/fzf/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
-            if [ -z "$LATEST_FZF_VERSION" ]; then
-                echo "Failed to fetch latest version info for fzf"
-                exit 1
-            fi
-            curl -fsSL "https://github.com/junegunn/fzf/releases/download/v${LATEST_FZF_VERSION}/fzf-${LATEST_FZF_VERSION}-linux_${arch}.tar.gz" -o "$temp_dir/fzf.tar.gz"
-            tar -xzf "$temp_dir/fzf.tar.gz" -C "$temp_dir"
-            sudo install -m 755 "$temp_dir/fzf" /usr/local/bin/
-        else
-            CURRENT_FZF_VERSION=$(fzf --version | head -1 | awk '{print $1}')
-
-            LATEST_FZF_VERSION=$(curl -fsSL https://api.github.com/repos/junegunn/fzf/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | sed 's/v//')
-            if [ -z "$LATEST_FZF_VERSION" ]; then
-                echo "Failed to fetch latest version info for fzf"
-                exit 1
-            fi
-
-            if [ "$CURRENT_FZF_VERSION" != "$LATEST_FZF_VERSION" ]; then
-                echo "Updating fzf from $CURRENT_FZF_VERSION to $LATEST_FZF_VERSION"
-                curl -fsSL "https://github.com/junegunn/fzf/releases/download/v${LATEST_FZF_VERSION}/fzf-${LATEST_FZF_VERSION}-linux_${arch}.tar.gz" -o "$temp_dir/fzf.tar.gz"
-                tar -xzf "$temp_dir/fzf.tar.gz" -C "$temp_dir"
-                sudo install -m 755 "$temp_dir/fzf" /usr/local/bin/
-            else
-                echo "fzf is already up to date ($CURRENT_FZF_VERSION)"
-            fi
-        fi
-    )
-}
-
-# Function to setup GitHub CLI apt repository
-setup_github_cli_apt_repo() {
-    # https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
-    (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
-        && sudo mkdir -p -m 755 /etc/apt/keyrings \
-            && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
-            && cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-        && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-        && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-}
-
 # Function to install Claude Code
 install_claude_code() {
     if ! command -v claude &> /dev/null; then
@@ -223,10 +87,7 @@ if [[ "$OS" == "macos" ]]; then
     # Use Homebrew
     /opt/homebrew/bin/brew update
 
-    /opt/homebrew/bin/brew install git gh ghq fzf ripgrep jq gnupg
-
-    # Install starship
-    install_starship
+    /opt/homebrew/bin/brew install git gnupg
 
     # Install mise
     install_mise
@@ -235,26 +96,14 @@ if [[ "$OS" == "macos" ]]; then
     install_claude_code
 
 elif [[ "$OS" == "linux" ]]; then
-    # Setup GitHub CLI repository
-    setup_github_cli_apt_repo
-
     # Add Git PPA for latest git version
     sudo add-apt-repository -y ppa:git-core/ppa
 
     # Install via apt
     sudo apt-get update
 
-    # Install git, gh, ripgrep, zsh, unzip (for ghq), jq, gnupg
-    sudo apt-get install -y git gh ripgrep zsh unzip jq gnupg
-
-    # Install ghq
-    install_ghq_linux
-
-    # Install fzf from binary
-    install_fzf_linux
-
-    # Install starship
-    install_starship
+    # Install OS-level dependencies. CLI tools are managed by mise.
+    sudo apt-get install -y git zsh unzip gnupg
 
     # Install mise
     install_mise
@@ -273,6 +122,4 @@ fi
 
 echo "Done! Dotfiles installed successfully."
 echo "- Please restart your shell or run 'source ~/.zshrc' to apply changes."
-if command -v gh &> /dev/null; then
-    echo "- GitHub CLI (gh) is now installed. Please run 'gh auth login -p ssh' to authenticate."
-fi
+echo "- GitHub CLI (gh) is managed by mise. Please run 'gh auth login -p ssh' after restarting your shell."

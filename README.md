@@ -40,7 +40,6 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `$HOME/.zprofile_Darwin` (macOS用)
   - `$HOME/.zshrc_Linux` (Linux用)
   - `$HOME/.zprofile_Linux` (Linux用)
-  - `$HOME/.config/starship.toml`
   - `$HOME/.config/mise/conf.d/00-shared.toml`
   - `$HOME/.claude/settings.json`
 
@@ -49,15 +48,14 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - これは symlink ではなくローカル実ファイルとして作成し、`mise use -g` などの環境依存な変更を dotfiles 側に混ぜない
 
 - よく使うライブラリのインストール
-  - `gh`
-  - `ghq`
-  - `fzf`
-  - `ripgrep`
-  - `jq`
   - `gnupg`
-  - `starship`
   - `mise`
   - `mise install` を実行して設定済みツールをインストール
+    - `github-cli` (`gh` コマンド)
+    - `ghq`
+    - `fzf`
+    - `ripgrep`
+    - `jq`
 
 ### 3. GUI系のアプリケーションや、環境によって必要なもののインストール（※柔軟性のため、ここは README.md に記載して手動実行を想定する）
 
@@ -104,7 +102,6 @@ WSL2 上の Ubuntu Linux の場合、歯車マークから Resources > WSL INTEG
 ## TODO
 
 - [x] Linux 側のライブラリインストール
-- [ ] starship の表示に必要なフォントのインストール
 - [ ] VSCode の設定周りの明記
   - 以前は `settings.json` をシンボリックリンクしていたが、環境ごとの差分をうまく管理できないので断念。ただドキュメントには載せたい
   - よく使う拡張機能のインストール
