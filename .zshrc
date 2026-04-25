@@ -22,7 +22,7 @@ bindkey -e
 
 # ===========================
 # Tool Initialization
-# ===========================a
+# ===========================
 
 # fzf
 if command -v fzf &> /dev/null; then
