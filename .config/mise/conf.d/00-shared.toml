@@ -1,7 +1,7 @@
 [tools]
 node = "lts"
-"npm:@google/gemini-cli" = "latest"
-"npm:@openai/codex" = "latest"
+gemini-cli = "latest"
+codex = "latest"
 "pipx:gitingest" = "latest"
 python = "latest"
 uv = "latest"
