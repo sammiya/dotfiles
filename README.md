@@ -64,16 +64,19 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 #### macOS
 
 ##### VSCode
+
 ```bash
 brew install --cask visual-studio-code
 ```
 
 ##### Google Chrome
+
 ```bash
 brew install --cask google-chrome
 ```
 
 ##### Docker
+
 ```bash
 brew install --cask docker
 ```
@@ -85,6 +88,7 @@ brew install --cask slack
 ```
 
 ##### Karabiner Elements
+
 ```bash
 brew install --cask karabiner-elements
 ```
@@ -100,12 +104,3 @@ brew install --cask karabiner-elements
 ```
 
 WSL2 上の Ubuntu で Docker Desktop の WSL Integration を使う場合は、`install-docker-linux.sh` は実行せず、Docker Desktop 側で Resources > WSL INTEGRATION を有効にする。
-
-## TODO
-
-- [x] Linux 側のライブラリインストール
-- [ ] VSCode の設定周りの明記
-  - 以前は `settings.json` をシンボリックリンクしていたが、環境ごとの差分をうまく管理できないので断念。ただドキュメントには載せたい
-  - よく使う拡張機能のインストール
-- [ ] Windows にも対応
-  - 原則 WSL2 の Ubuntu Linux 上で開発する想定だが、VSCode の設定などは記載したい
