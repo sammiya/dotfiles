@@ -71,6 +71,26 @@ install_mise() {
     fi
 }
 
+# Function to install Spaceship prompt
+install_spaceship() {
+    if [[ "$OS" == "macos" ]]; then
+        /opt/homebrew/bin/brew install spaceship
+    elif [[ "$OS" == "linux" ]]; then
+        local spaceship_dir="$HOME/.zsh/spaceship"
+
+        mkdir -p "$(dirname "$spaceship_dir")"
+
+        if [[ -d "$spaceship_dir/.git" ]]; then
+            git -C "$spaceship_dir" pull --ff-only
+        elif [[ ! -e "$spaceship_dir" ]]; then
+            git clone --depth=1 https://github.com/spaceship-prompt/spaceship-prompt.git "$spaceship_dir"
+        else
+            echo "Error: $spaceship_dir exists but is not a git repository"
+            return 1
+        fi
+    fi
+}
+
 # Function to install Claude Code
 install_claude_code() {
     if ! command -v claude &> /dev/null; then
@@ -92,6 +112,9 @@ if [[ "$OS" == "macos" ]]; then
     # Install mise
     install_mise
 
+    # Install Spaceship prompt
+    install_spaceship
+
     # Install Claude Code
     install_claude_code
 
@@ -107,6 +130,9 @@ elif [[ "$OS" == "linux" ]]; then
 
     # Install mise
     install_mise
+
+    # Install Spaceship prompt
+    install_spaceship
 
     # Install Claude Code
     install_claude_code

@@ -31,6 +31,13 @@ if [ -x "$HOME/.local/bin/mise" ]; then
     alias mise-shared='mise use --path ~/.config/mise/conf.d/00-shared.toml'
 fi
 
+# Spaceship prompt
+if [ -f /opt/homebrew/opt/spaceship/spaceship.zsh ]; then
+    source /opt/homebrew/opt/spaceship/spaceship.zsh
+elif [ -f "$HOME/.zsh/spaceship/spaceship.zsh" ]; then
+    source "$HOME/.zsh/spaceship/spaceship.zsh"
+fi
+
 # fzf
 if command -v fzf &> /dev/null; then
     source <(fzf --zsh)

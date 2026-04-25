@@ -50,6 +50,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
 - よく使うライブラリのインストール
   - `gnupg`
   - `mise`
+  - `spaceship`
   - `mise install` を実行して設定済みツールをインストール
     - `github-cli` (`gh` コマンド)
     - `ghq`
