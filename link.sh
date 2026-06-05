@@ -23,6 +23,7 @@ echo "Creating symbolic links from: $DOTFILES_DIR"
 ln -sf "$DOTFILES_DIR/.gitignore_global" "$HOME/.gitignore_global"
 ln -sf "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+ln -sf "$DOTFILES_DIR/.zshenv" "$HOME/.zshenv"
 ln -sf "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
 
 mkdir -p "$HOME/.config"

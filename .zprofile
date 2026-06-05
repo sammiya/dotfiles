@@ -20,6 +20,14 @@ case "$OSTYPE" in
 esac
 
 # ===========================
+# mise
+# ===========================
+if [ -x "$HOME/.local/bin/mise" ]; then
+    # Re-assert mise shims after login-only PATH setup such as brew shellenv.
+    eval "$("$HOME/.local/bin/mise" activate zsh --shims)"
+fi
+
+# ===========================
 # Local Configuration
 # ===========================
 # Source local configuration if it exists

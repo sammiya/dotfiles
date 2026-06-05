@@ -35,6 +35,7 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `$HOME/.gitignore_global`
   - `$HOME/.gitconfig`
   - `$HOME/.zshrc`
+  - `$HOME/.zshenv`
   - `$HOME/.zprofile`
   - `$HOME/.zshrc_Darwin` (macOS用)
   - `$HOME/.zprofile_Darwin` (macOS用)
