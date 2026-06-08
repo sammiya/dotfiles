@@ -1,3 +1,6 @@
+# Source machine-local environment before shared adjustments.
+[ -f "$HOME/.zshenv_local" ] && source "$HOME/.zshenv_local"
+
 # Keep mise shims ahead of inherited direct install paths in non-interactive shells.
 if [[ -n "$HOME" ]]; then
     _mise_shims="$HOME/.local/share/mise/shims"
