@@ -69,6 +69,15 @@ install_claude_code() {
     fi
 }
 
+install_python_packages() {
+    if ! command -v mise &> /dev/null; then
+        echo "Error: mise is required before installing Python packages"
+        return 1
+    fi
+
+    mise exec -- python3 -m pip install PyYAML
+}
+
 # Install tools
 echo "Installing tools..."
 
@@ -86,6 +95,9 @@ if [[ "$OS" == "macos" ]]; then
 
     # Install Claude Code
     install_claude_code
+
+    # Install Python packages
+    install_python_packages
 
 elif [[ "$OS" == "linux" ]]; then
     # Install prerequisites for add-apt-repository and HTTPS installers
@@ -109,6 +121,9 @@ elif [[ "$OS" == "linux" ]]; then
 
     # Install Claude Code
     install_claude_code
+
+    # Install Python packages
+    install_python_packages
 
     # Change default shell to zsh
     if [[ "$SHELL" != "$(which zsh)" ]]; then

@@ -52,7 +52,9 @@ cd $HOME/ghq/github.com/sammiya/dotfiles && ./install.sh
   - `gnupg`
   - `mise`
   - `spaceship`
+  - `PyYAML`
   - `mise install` を実行して `.config/mise/conf.d/00-shared.toml` の CLI・言語ランタイムをインストール
+  - `mise` で入れた Python に対して `python3 -m pip install PyYAML` を実行
 
 設定ファイルへのシンボリックリンクだけ作り直したい場合は、以下を実行する：
 
